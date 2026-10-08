@@ -14,7 +14,7 @@ O Pygame é usado apenas para criar a janela, ler teclado e mouse, exibir a imag
 
 ## Demonstração
 
-_Arquivo do vídeo: [Breakout](https://github.com/Yan-Freitas/https---github.com-Yan-Freitas-trabalho_CompGrafica/blob/main/assets/Breakout.mp4))_
+_Arquivo do vídeo: [Breakout](https://github.com/Yan-Freitas/https---github.com-Yan-Freitas-trabalho_CompGrafica/blob/main/assets/Breakout.mp4), ou você pode [Assistir pelo Drive](https://drive.google.com/file/d/1r4YynKXGRbeqN4bpByQQbWWEIV7dd4f1/view?usp=sharing))_
 
 ### Estrutura de Pastas
 
