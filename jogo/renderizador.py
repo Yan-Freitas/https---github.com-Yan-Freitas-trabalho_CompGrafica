@@ -90,13 +90,6 @@ class Renderizador:
         else:
             scanline_fill(sup, pts, (200, 200, 230))
 
-        if detalhe:
-            tr = list(jogo.trail)
-            n = len(tr)
-            for i in range(n - 1):
-                k = (i + 1) / n
-                self.linha(tr[i], tr[i + 1], win, m, (int(255 * k), int(160 * k), int(40 * k)))
-
         pts = self.para_tela(jogo.ball.polygon(), m)
         if fora_da_viewport(pts, vp):
             return

@@ -1,5 +1,4 @@
 import math
-from collections import deque
 import pygame
 from jogo.config import *
 from jogo.entidades import Paddle, Ball, Brick
@@ -20,7 +19,6 @@ class Partida:
         self.bricks = [Brick(r, c) for r in range(BRICK_ROWS) for c in range(BRICK_COLS)]
         self.score, self.lives = 0, 3
         self.state = "ready"          # ready | playing | paused | over | won
-        self.trail = deque(maxlen=14)
         self.window.reset()
         self._stick_ball()
 
@@ -28,7 +26,6 @@ class Partida:
         b, p = self.ball, self.paddle
         b.x, b.y = p.x, p.top - b.r - 1
         b.vx = b.vy = 0.0
-        self.trail.clear()
 
     def keydown(self, key):
         if key == pygame.K_SPACE and self.state == "ready":
@@ -56,7 +53,6 @@ class Partida:
         for br in self.bricks:
             br.update(dt)
         self.bricks = [br for br in self.bricks if not br.gone]
-        self.ball.update_visual(dt)
 
         self.paddle.move((keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]) * PADDLE_SPEED * dt)
 
@@ -66,7 +62,6 @@ class Partida:
         passos = max(3, math.ceil(dt * 90))      # mais subpassos se o quadro demorar
         for _ in range(passos):
             self._step(dt / passos)
-        self.trail.append((self.ball.x, self.ball.y))
 
         if not any(br.alive for br in self.bricks):
             self.state = "won"
@@ -103,7 +98,6 @@ class Partida:
             sp = math.hypot(b.vx, b.vy)
             b.vx, b.vy = sp * math.sin(ang), -sp * math.cos(ang)
             b.y = p.top - b.r - 0.01
-            b.pulse = 1.0
 
         for br in self.bricks:
             if br.alive:
@@ -113,7 +107,6 @@ class Partida:
                     b.vx, b.vy = limitar_angulo(b.vx, b.vy)
                     br.hit()
                     self.score += 10 * (BRICK_ROWS - br.row)
-                    b.pulse = 1.0
                     break
 
         if b.y - b.r > WORLD_H:

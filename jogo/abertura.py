@@ -1,5 +1,5 @@
 from jogo.config import *
-from lib.Primitivas import bresenham
+from lib.Primitivas import bresenham, desenhar_poligono
 from lib.Preenchimento import boundary_fill
 from lib.Contornos import contorno_circulo, contorno_elipse
 from jogo.fonte import agendar_texto, largura_texto
@@ -17,20 +17,14 @@ class Abertura:
         sup.set_clip(None)
         sup.fill(BG)
 
-    def _retangulo(self, x, y, w, h):
-        s = self.sup
-        bresenham(s, x, y, x + w, y, WHITE)
-        bresenham(s, x + w, y, x + w, y + h, WHITE)
-        bresenham(s, x + w, y + h, x, y + h, WHITE)
-        bresenham(s, x, y + h, x, y, WHITE)
-
     def _titulo(self):
         self.titulo = True
 
     def _retas(self):
         for r in range(2):
             for c in range(8):
-                self._retangulo(BR_X + c * BR_STEP, BR_Y + r * 24, BR_W, BR_H)
+                x, y = BR_X + c * BR_STEP, BR_Y + r * 24
+                desenhar_poligono(self.sup, [(x, y), (x + BR_W, y), (x + BR_W, y + BR_H), (x, y + BR_H)], WHITE)
         bresenham(self.sup, 40, 300, 600, 300, WHITE)
         bresenham(self.sup, 346, 170, 420, 132, WHITE)
 

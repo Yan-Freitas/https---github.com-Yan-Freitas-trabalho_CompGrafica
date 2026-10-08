@@ -14,3 +14,5 @@ def janela_viewport(janela, viewport):
     m = multiplica_matrizes(escala(sx, sy), m)
 
     m = multiplica_matrizes(translacao(Vxmin, Vymin), m)
+
+    return m

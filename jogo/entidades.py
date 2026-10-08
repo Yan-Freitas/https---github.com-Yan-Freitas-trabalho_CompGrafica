@@ -4,7 +4,12 @@ from jogo.geometria import transladar, escalar, rotacionar
 
 _N = 12
 _UNIT_CIRCLE = [(math.cos(2 * math.pi * i / _N), math.sin(2 * math.pi * i / _N)) for i in range(_N)]
-_BALL_COLORS = [(255, 255, 255) if i % 2 == 0 else (255, 140, 0) for i in range(_N)]
+# gradiente vertical simples: vértices de cima claros, vértices de baixo escuros
+_TOPO, _BASE = (255, 235, 170), (210, 90, 10)
+_BALL_COLORS = []
+for _x, _y in _UNIT_CIRCLE:
+    _t = (_y + 1) / 2                       # 0 no topo (y = -1) ... 1 embaixo (y = +1)
+    _BALL_COLORS.append(tuple(int(_TOPO[k] + (_BASE[k] - _TOPO[k]) * _t) for k in range(3)))
 DEATH_TIME = 0.3
 
 
@@ -37,17 +42,9 @@ class Ball:
     def __init__(self):
         self.r = BALL_R
         self.x = self.y = self.vx = self.vy = 0.0
-        self.angle = 0.0
-        self.pulse = 0.0
-
-    def update_visual(self, dt):
-        self.angle += 360 * dt          # graus
-        self.pulse = max(0.0, self.pulse - 4 * dt)
 
     def polygon(self):
-        s = self.r * (1 + 0.5 * self.pulse)
-        pts = escalar(_UNIT_CIRCLE, s, s, 0, 0)
-        pts = rotacionar(pts, self.angle, 0, 0)
+        pts = escalar(_UNIT_CIRCLE, self.r, self.r, 0, 0)
         return transladar(pts, self.x, self.y)
 
     def vertex_colors(self):
